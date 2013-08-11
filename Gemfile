@@ -4,11 +4,12 @@ ruby '1.9.2'
 
 gem 'rails', '3.1.12'
 
-# Bundle edge Rails instead:
-# gem 'rails',     :git => 'git://github.com/rails/rails.git'
-
 gem 'sqlite3'
+gem 'ancestry'
 
+group :development, :test do
+  gem 'rspec-rails', '~> 2.0'
+end
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -37,6 +38,5 @@ gem 'jquery-rails'
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
 group :test do
-  # Pretty printed test output
-  gem 'turn', '0.8.2', :require => false
+	gem 'factory_girl_rails'
 end
