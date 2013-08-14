@@ -20,12 +20,18 @@ module PagesHelper
 	end
 
 	def join(*args)
-		args.reject!(&:empty?)
+		args.reject!{ |arg| arg.empty? || arg == "/" }
 	  args.map { |arg| arg.gsub(%r{^/*(.*?)/*$}, '\1')}.join("/")
 	end
 
-	def parent_path_of(path)
-		path.split('/')[0..-2].join('/')
+	def parent_uri
+		parent_uri = current_uri.split('/')[0..-2].join('/')
+		# parent_uri.blank? ? "/" : parent_uri
+		parent_uri + '/'
+	end
+
+	def current_uri
+		request.fullpath.split("?")[0] # with no ?-params
 	end
 
   def page_ancestry_path page

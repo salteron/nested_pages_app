@@ -1,1 +1,4 @@
-<%= nested_pages @pages.arrange, "" %>  
+<%= link_to "Add root page", "/add" %>
+
+<h2>Pages tree</h2>
+<%= nested_pages @pages.arrange, "/" %>  

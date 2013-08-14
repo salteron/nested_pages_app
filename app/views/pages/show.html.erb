@@ -1,6 +1,11 @@
+<%= link_to 'main', root_path %> |
+<%= link_to 'back to parent', parent_uri %> |
+<%= link_to 'add sub-page', "#{current_uri}/add" %> |
+<%= link_to 'edit page', "#{current_uri}/edit" %>
+
 <h3>Title:</h3>   <%= @page.title %> 
 <h3>Content:</h3> <%= @page.content %>
 
 <h3>Page subtree</h3>
 <%= nested_pages @page.subtree.arrange,
-								 parent_path_of(request.fullpath) %>
+								 parent_uri %>
