@@ -20,7 +20,7 @@ class PagesController < ApplicationController
     @page = Page.new(page_params)
     if @page.save
       flash[:notice] = "Successfully created page!"
-      redirect_to form_url("#{page_ancestry_path(@page)}")
+      redirect_to form_url_from_parts(page_ancestry_path(@page))
     else
       render :new
     end
@@ -34,7 +34,7 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
     if @page.update_attributes(page_update_params)
       flash[:notice] = "Page updated!"
-      redirect_to form_url("#{page_ancestry_path(@page)}")
+      redirect_to form_url_from_parts(page_ancestry_path(@page))
     else
       render :edit
     end
@@ -73,9 +73,5 @@ class PagesController < ApplicationController
       # Checking requested page existence, then
       # comparing path specified in url with requested page's ancestry
       req_page && (page_ancestry_path(req_page) == path)
-    end
-
-    def page_ancestry_path page
-      page.path.select(:name).map(&:name).join('/')
     end
 end

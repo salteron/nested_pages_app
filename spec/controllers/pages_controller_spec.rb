@@ -47,7 +47,7 @@ describe PagesController do
             { parent_id: root.id })
 
         assigns[:page].parent.should eq root
-        response.should redirect_to form_url( 
+        response.should redirect_to form_url_from_parts( 
           "root/#{FactoryGirl.attributes_for(:page)[:name]}"
         )
       end
@@ -130,7 +130,7 @@ describe PagesController do
       end
 
       it "should redirect to updated page" do
-        response.should redirect_to(form_url 'root')
+        response.should redirect_to(form_url_from_parts 'root')
       end
     end
 
