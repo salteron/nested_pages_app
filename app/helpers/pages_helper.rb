@@ -26,7 +26,6 @@ module PagesHelper
 
 	def parent_uri
 		parent_uri = current_uri.split('/')[0..-2].join('/')
-		# parent_uri.blank? ? "/" : parent_uri
 		parent_uri + '/'
 	end
 

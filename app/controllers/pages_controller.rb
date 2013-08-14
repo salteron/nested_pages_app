@@ -62,11 +62,12 @@ class PagesController < ApplicationController
       return if params[:page_path].nil? # when '/add' path
 
       req_page_name = params[:page_path].split('/').last 
-      @requested_page =  Page.find_by_name(req_page_name)
-      if not path_exists?(params[:page_path], @requested_page)
-        redirect_to(root_path,
-                    notice: "Not existing path - \'#{params[:page_path]}\'")
+      Page.where(name: req_page_name).each do |page|
+        return if path_exists?(params[:page_path], @requested_page = page)
       end
+      
+      redirect_to(root_path,
+                    notice: "Not existing path - \'#{params[:page_path]}\'")
     end
 
     def path_exists? path, req_page
