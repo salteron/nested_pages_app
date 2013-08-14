@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Page do
-  let(:page) { FactoryGirl.create(:page) }
+  let(:page) { FactoryGirl.build(:page) }
 	subject { page }
 
   it { should respond_to(:name) }
@@ -25,7 +25,9 @@ describe Page do
   end
 
   describe "when name already exists" do
-    let(:page_with_the_same_name) { page.dup } 
+    let(:page_with_the_same_name) { page.dup }
+
+    before { page.save } 
     
     subject { page_with_the_same_name }
 
@@ -49,12 +51,13 @@ describe Page do
   end
 
   describe "tree associations" do
+    before { page.save }
+
   	let(:child_page) { FactoryGirl.create(:page, name: 'child page',
                                            parent_id: page) }
   	let(:grand_child_page) { FactoryGirl.create(:page, name: 'grand_child_page',
                                            parent_id: child_page) }
-  	before { page.save }
-		
+  	
   	it "should be root page" do
   		expect(page.parent).to be_nil
   		expect(Page.roots).to include(page)
