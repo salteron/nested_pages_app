@@ -1,0 +1,19 @@
+<% provide(:title, 'Edit page') %>
+
+
+<div>
+  <%= form_for(@page) do |f| %>
+
+    <%= render 'shared/error_messages', object: f.object %>
+
+    <%= f.hidden_field :parent_id %>
+		
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+
+    <%= f.label :content %>
+    <%= f.text_field :content %>
+
+    <%= f.submit "Save"%>
+  <% end %>
+</div>

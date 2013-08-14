@@ -24,6 +24,15 @@ describe Page do
   	end
   end
 
+  describe "when name already exists" do
+    let(:page_with_the_same_name) { page.dup } 
+    
+    subject { page_with_the_same_name }
+
+    it { should_not be_valid }
+    
+  end
+
   describe "when title is not present" do
     before { page.title = " " }
     it { should_not be_valid }
@@ -40,8 +49,10 @@ describe Page do
   end
 
   describe "tree associations" do
-  	let(:child_page) { FactoryGirl.create(:page, parent: page) }
-  	let(:grand_child_page) { FactoryGirl.create(:page, parent: child_page) }
+  	let(:child_page) { FactoryGirl.create(:page, name: 'child page',
+                                           parent_id: page) }
+  	let(:grand_child_page) { FactoryGirl.create(:page, name: 'grand_child_page',
+                                           parent_id: child_page) }
   	before { page.save }
 		
   	it "should be root page" do

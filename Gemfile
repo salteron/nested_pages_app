@@ -6,6 +6,7 @@ gem 'rails', '3.1.12'
 
 gem 'sqlite3'
 gem 'ancestry'
+gem 'strong_parameters'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.0'
