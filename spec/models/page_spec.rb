@@ -15,6 +15,17 @@ describe Page do
     it { should_not be_valid }
   end
 
+  describe "when name is invalid" do
+    invalid_names = ['has whitepsace', '/has_slash', '*&!@#']
+
+    it "should not be valid" do
+      invalid_names.each do |name|
+        page.name = name
+        expect(page).not_to be_valid
+      end
+    end
+  end
+
   describe "when name is reserved" do
   	it do
   		Page::FORBIDDEN_NAMES.each do |f_name|
@@ -40,6 +51,8 @@ describe Page do
     it { should_not be_valid }
   end
 
+
+
   describe "when content is not present" do
     before { page.content = "" }
     it { should be_valid }
@@ -50,10 +63,29 @@ describe Page do
   	it { should_not be_valid}
   end
 
+  describe "input safety" do
+    describe "when title contains tags" do
+      it "should strip them" do
+        page.title = "<h1>title</h1>"
+        page.save
+        expect(page.title).to eq "title"
+      end
+    end
+
+    describe "when content contrains javascrript" do
+      it "should sanitize it" do
+        page.content = "<javascript>alert('alarm!')</javascrript>" +
+                       "<h1>content</h1>"
+        page.save
+        expect(page.content).to eq "alert('alarm!')<h1>content</h1>"
+      end
+    end
+  end
+
   describe "tree associations" do
     before { page.save }
 
-  	let(:child_page) { FactoryGirl.create(:page, name: 'child page',
+  	let(:child_page) { FactoryGirl.create(:page, name: 'child_page',
                                            parent_id: page) }
   	let(:grand_child_page) { FactoryGirl.create(:page, name: 'grand_child_page',
                                            parent_id: child_page) }

@@ -1,34 +1,34 @@
-class AncestryUniquenessValidator < ActiveModel::Validator
-
-	# Validates the whole ancestry (path) uniqueness
-  def validate(record)
-  	return if not record.new_record? # because name updates are restricted!
-  	if (record.parent && record.parent.children.where(name: record.name).any?) || 
-  		 (record.parent.nil? && Page.roots.where(name: record.name).any?)
-  				record.errors[:name] << "has been already taken"
-  	end
-  end
-
-end
-
-
 class Page < ActiveRecord::Base
-	include ActiveModel::Validations
-  validates_with AncestryUniquenessValidator
+	VALID_PAGE_NAME_REGEXP = /^\w+$/
+	FORBIDDEN_NAMES = %w(edit add)
 
 	has_ancestry
 
-	FORBIDDEN_NAMES = %w(edit add)
+	before_save do
+		self.title = ActionController::Base.helpers.strip_tags(title)
+		self.content = ActionController::Base.helpers.sanitize(content)
+	end
 
-	validates :name,  presence: true
-	validates :name, exclusion: { in: FORBIDDEN_NAMES,
-    message: "Name %{value} is reserved." }
+	validates :name,
+	  presence: true,
+	  exclusion: { in: FORBIDDEN_NAMES, message: "Name %{value} is reserved." },
+	  format: { with: VALID_PAGE_NAME_REGEXP }
 
 	validates :title,  presence: true
 
-	validate :content_cant_be_nil
+	validate :path_is_unique, :content_cant_be_nil
 
-	def content_cant_be_nil
-		errors.add(:content, "can't be nil") if content.nil?
-	end
+	private
+
+		def content_cant_be_nil
+			errors.add(:content, "can't be nil") if content.nil?
+		end
+
+		def path_is_unique
+			return if not self.new_record? # because name updates are restricted!
+	  	if (parent && parent.children.where(name: name).any?) || 
+	  		 (parent.nil? && Page.roots.where(name: name).any?)
+	  				errors[:name] << "has been already taken"
+	  	end
+		end
 end
