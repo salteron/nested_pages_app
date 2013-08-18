@@ -42,10 +42,9 @@ module PagesHelper
     sanitize(raw content)
   end
 
-
   # Replacing from inside out
   def replace_with_bold content
-    bold_reg = /\*{2}(?<content>\[((?!\*{2}[\]\[]).)*\])\*{2}/
+    bold_reg = /\*{2}(?<content>((?!\*{2}).)*)\*{2}/
     bold_rep = '<b>\k<content></b>'
 
     while content.gsub!(bold_reg, bold_rep); end
@@ -54,7 +53,7 @@ module PagesHelper
   
   # Replacing from inside out
   def replace_with_italic content
-    italic_reg = /\\{2}(?<content>\[((?!\\{2}[\]\[]).)*\])\\{2}/
+    italic_reg = /\\{2}(?<content>((?!\\{2}).)*)\\{2}/
     italic_rep = '<i>\k<content></i>'
 
     while content.gsub!(italic_reg, italic_rep); end
@@ -62,7 +61,7 @@ module PagesHelper
   end
 
   def replace_with_href content, url_prefix = form_url_from_parts
-    href_reg = /\({2}\/{0,1}(?<page_path>(\w+\/)*\w+)\/{0,1}\s+(?<text>\[.+\])\){2}/
+    href_reg = /\({2}\/{0,1}(?<page_path>(\w+\/)*\w+)\/{0,1}\s+(?<text>.+)\){2}/
     href_rep = "<a href='#{url_prefix}\/\\k<page_path>'>\\k<text></a>"
 
     while content.gsub!(href_reg, href_rep); end
