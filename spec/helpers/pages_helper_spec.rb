@@ -58,4 +58,18 @@ describe PagesHelper do
     end
 
   end
+
+  describe "finding parent URI" do
+    it "should return root directory" do
+      expect(parent_uri "/").to eq "/"
+    end
+
+    it "should return root directory" do
+      expect(parent_uri "/name1").to eq "/"
+    end
+
+    it "should cut the last part off" do
+      expect(parent_uri "/name1/name2").to eq "/name1/"
+    end
+  end
 end

@@ -2,18 +2,18 @@ class PagesController < ApplicationController
   include ActiveModel::ForbiddenAttributesProtection
 
   before_filter :valid_parent, only: [:create]
-  before_filter :requested_page, only: [:show, :new, :edit]
+  before_filter :current_page, only: [:show, :new, :edit]
 
   def index
     @pages = Page.scoped
   end
 
   def show
-    @page = @requested_page
+    @page = @current_page
   end
 
   def new
-    @page = @requested_page ? Page.new(parent_id: @requested_page.id) : Page.new 
+    @page = @current_page ? Page.new(parent_id: @current_page.id) : Page.new 
   end
 
   def create
@@ -27,7 +27,7 @@ class PagesController < ApplicationController
   end
 
   def edit
-    @page = @requested_page
+    @page = @current_page
   end
 
   def update
@@ -57,22 +57,24 @@ class PagesController < ApplicationController
         redirect_to root_path, notice: "Parent doesn't exist"
       end
     end
-
-    def requested_page
+    
+    # Присваивает переменной @current_page значение, соответствующее странице
+    # с родословной, указанной в URI. Если такой страницы нет - редирект.
+    def current_page
       return if params[:page_path].nil? # when '/add' path
 
-      req_page_name = params[:page_path].split('/').last 
-      Page.where(name: req_page_name).each do |page|
-        return if path_exists?(params[:page_path], @requested_page = page)
+      cur_page_name = params[:page_path].split('/').last 
+      Page.where(name: cur_page_name).each do |page|
+        return if path_exists?(params[:page_path], @current_page = page)
       end
       
       redirect_to(root_path,
                     notice: "Not existing path - \'#{params[:page_path]}\'")
     end
 
-    def path_exists? path, req_page
+    def path_exists? path, page
       # Checking requested page existence, then
       # comparing path specified in url with requested page's ancestry
-      req_page && (page_ancestry_path(req_page) == path)
+      page && (page_ancestry_path(page) == path)
     end
 end

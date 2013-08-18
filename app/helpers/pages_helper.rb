@@ -1,5 +1,6 @@
 module PagesHelper
-
+  
+  # Given hash of pages, renders tree
   def nested_pages(pages, prefix)  
     pages.map do |page, sub_pages|  
       render(
@@ -24,7 +25,7 @@ module PagesHelper
 	  args.map { |arg| arg.gsub(%r{^/*(.*?)/*$}, '\1')}.join("/")
 	end
 
-	def parent_uri
+	def parent_uri current_uri = current_uri
 		parent_uri = current_uri.split('/')[0..-2].join('/')
 		parent_uri + '/'
 	end
@@ -33,16 +34,18 @@ module PagesHelper
 		request.fullpath.split("?")[0] # with no ?-params
 	end
 
+  # gets page's ancestry path via one db request
   def page_ancestry_path page
     page.path.select(:name).map(&:name).join('/')
   end
-
+  
+  # replaces user-tags with html-tags
   def format_content content
     content = replace_with_href(replace_with_italic(replace_with_bold(content)))
     sanitize(raw content)
   end
 
-  # Replacing from inside out
+  # replacing from inside out
   def replace_with_bold content
     bold_reg = /\*{2}(?<content>((?!\*{2}).)*)\*{2}/
     bold_rep = '<b>\k<content></b>'
@@ -51,7 +54,7 @@ module PagesHelper
     content
   end 
   
-  # Replacing from inside out
+  # replacing from inside out
   def replace_with_italic content
     italic_reg = /\\{2}(?<content>((?!\\{2}).)*)\\{2}/
     italic_rep = '<i>\k<content></i>'

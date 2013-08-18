@@ -1,23 +1,31 @@
-<% provide(:title, 'Add page') %>
-
-<div class="row">
-  <div>
-    <%= form_for(@page) do |f| %>
-
-      <%= render 'shared/error_messages', object: f.object %>
-
-      <%= f.hidden_field :parent_id %>
-			
-     	<%= f.label :name %>
-     	<%= f.text_field :name %>
-
-      <%= f.label :title %>
-      <%= f.text_field :title %>
-
-      <%= f.label :content %>
-      <%= f.text_field :content %>
-
-      <%= f.submit "Create"%>
-    <% end %>
-  </div>
+<div id="nav">
+  <%= render 'nav_menu' %>
 </div>
+
+<div id="page_full">
+
+  <%= form_for(@page) do |f| %>
+
+    <%= render 'shared/error_messages', object: f.object %>
+
+    <%= f.hidden_field :parent_id %>
+		
+    <p>
+   	  <%= f.label :name %>
+   	  <%= f.text_field :name, size: 46 %>
+    </p>
+
+    <p>
+      <%= f.label :title %>
+      <%= f.text_field :title, size: 48 %>
+    </p>
+    <p><%= f.label :content %></p>
+    <p>
+      <%= f.text_area :content, size: 80 %>
+    </p>
+
+    <p><%= f.submit "Create"%></p>
+  <% end %>
+</div>
+
+<div style='clear: both;'></div>

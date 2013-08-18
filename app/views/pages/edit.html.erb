@@ -1,19 +1,26 @@
 <% provide(:title, 'Edit page') %>
 
+<div id="nav">
+  <%= render 'nav_menu' %>
+  <%= render 'sub_tree' %>
+</div>
 
-<div>
+<div id="page_full">
   <%= form_for(@page) do |f| %>
 
     <%= render 'shared/error_messages', object: f.object %>
 
     <%= f.hidden_field :parent_id %>
 		
-    <%= f.label :title %>
-    <%= f.text_field :title %>
+    <p>
+      <%= f.label :title %>
+      <%= f.text_field :title, size: 48 %>
+    </p>
 
-    <%= f.label :content %>
-    <%= f.text_field :content %>
+    <p><%= f.label :content %></p>
+    <p><%= f.text_area :content, size: 80 %></p>
 
     <%= f.submit "Save"%>
   <% end %>
 </div>
+<div style='clear: both;'></div>

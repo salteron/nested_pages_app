@@ -77,6 +77,12 @@ def make_pages
     content: 'Ремонт телевизионного и компьютерного оборудования любой сложности.',
     parent:   services_page
   )
+
+  formating_example_page = Page.create!(
+    name:    'formating_example',
+    title:   'Пример использования шаблонов',
+    content: "\\\\You can visit the **following link**\\\\ to know more
+              about **((/products/TVs/LED LED))**"
+  )
      
 end
-

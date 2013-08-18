@@ -2,5 +2,41 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .nested_pages {
-  margin-left: 30px;
+  margin-left: 20px;
+}
+
+html, body {
+  font-family: Verdana, Helvetica, Arial;
+  font-size: 14px;
+}
+
+a {
+  color: #0000FF;
+}
+
+.flash_notice {
+  padding: 5px 8px;
+  margin: 10px 0;
+  background-color: #CFC;
+  border: solid 1px #6C6;
+}
+
+#error_explanation {
+  color: #f00;
+  ul {
+    margin: 0 0 18px 0;
+  }
+}
+
+#nav {
+  float: left;
+  width: 25%;
+}
+
+#page_full {
+  float: right;
+  width: 70%;
+  border-left: 2px solid; /* Линия слева от текста */
+  padding-left: 10px; /* Расстояние между линией и текстом */
+  margin-left: 10px; /* Расстояние от левого края до линии */
 }
