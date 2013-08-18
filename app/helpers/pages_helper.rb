@@ -34,7 +34,7 @@ module PagesHelper
 		request.fullpath.split("?")[0] # with no ?-params
 	end
 
-  # gets page's ancestry path via one db request
+  #! gets page's ancestry path via single db request
   def page_ancestry_path page
     page.path.select(:name).map(&:name).join('/')
   end

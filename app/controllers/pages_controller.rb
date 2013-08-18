@@ -58,8 +58,9 @@ class PagesController < ApplicationController
       end
     end
     
-    # Присваивает переменной @current_page значение, соответствующее странице
-    # с родословной, указанной в URI. Если такой страницы нет - редирект.
+    #! Присваивает переменной @current_page значение, соответствующее странице
+    #  с родословной, совпадающей с указанной в URI. Если такой страницы нет
+    #  - редирект.
     def current_page
       return if params[:page_path].nil? # when '/add' path
 
